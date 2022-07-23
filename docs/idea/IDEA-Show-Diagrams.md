@@ -10,7 +10,7 @@
 
 - 在想要查看的类或接口上，右键选择 `show diagrams`
 
-  ![image-20220716105612665](images/IDEA Show Diagrams 功能说明.assets/image-20220716105612665.png)
+  ![image-20220716105612665](images/image-20220716105612665.png)
 
 - `Diagrams` 中两个选项说明
   
@@ -19,13 +19,13 @@
 
 ## 类图解效果展示
 
-![image-20220716110106302](images/IDEA Show Diagrams 功能说明.assets/image-20220716110106302.png)
+![image-20220716110106302](images/image-20220716110106302.png)
 
 - 可以展示的信息包含：结构图、继承、实现、内部实现类、方法、变量、构造方法等
 
 ## 功能说明
 
-![image-20220716110521452](images/IDEA Show Diagrams 功能说明.assets/image-20220716110521452.png)
+![image-20220716110521452](images/image-20220716110521452.png)
 
 | num  | 按钮                    | 功能              |
 | ---- | ----------------------- | ----------------- |
@@ -42,13 +42,13 @@
 
 ## 定位源码位置
 
-![image-20220716111408997](images/IDEA Show Diagrams 功能说明.assets/image-20220716111408997.png)
+![image-20220716111408997](images/image-20220716111408997.png)
 
 ## 添加子类、子实现、父类
 
 - 右键：Show Implementations、Show Parents
 
-  ![image-20220716111547341](images/IDEA Show Diagrams 功能说明.assets/image-20220716111547341.png)
+  ![image-20220716111547341](images/image-20220716111547341.png)
 
 ## 类图符号箭头说明
 
@@ -57,7 +57,7 @@
 - 虚线箭头
   - 含义：实现 implements
 
-![image-20220716112023755](images/IDEA Show Diagrams 功能说明.assets/image-20220716112023755.png)
+![image-20220716112023755](images/image-20220716112023755.png)
 
 ## 类图UML中符号说明（仅供参考，可能有误）
 

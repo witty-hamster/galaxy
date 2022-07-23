@@ -15,7 +15,7 @@
 
 ## Executor 类图
 
-![image-20220716141251042](images/🐤 [基础] Java多线程源码解读.assets/image-20220716141251042.png)
+![image-20220716141251042](images/image-20220716141251042.png)
 
 - Executor 接口中提供了一个 execute() 方法
   - 该方法是线程执行任务的核心方法，具体的执行过程可参考 ThreadPoolExecutor 类中对重载的 execute() 方法
@@ -98,5 +98,5 @@ public ThreadPoolExecutor(int corePoolSize,
 
 ## BlockingQueue 类图
 
-![image-20220716144241236](images/🐤 [基础] Java多线程源码解读.assets/image-20220716144241236.png)
+![image-20220716144241236](images/image-20220716144241236.png)
 
