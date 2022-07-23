@@ -1,6 +1,8 @@
 # 知识星球
 
-* [在线阅读网站](https://witty-hamster.github.io/galaxy)
+> 学习笔记、问题跟踪。。。
+
+* [在线阅读网站 Gitee](https://witty-hamster.gitee.io/galaxy)
 
 ## Java
 
