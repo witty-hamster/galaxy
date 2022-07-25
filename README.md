@@ -20,6 +20,10 @@
 - [🐱 Java 线程池](docs/java/concurrent/a-java-thread-pool.md)
 - [🐤 Java多线程源码解读](docs/java/concurrent/a-thread-source-code.md)
 
+## 💢 问题仓
+
+- [Redis问题](docs/error-pool/redis.md)
+
 ## 碎片化知识库
 
 - [IDEA Show Diagrams 功能说明](docs/idea/IDEA-Show-Diagrams.md)
