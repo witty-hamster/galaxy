@@ -144,4 +144,60 @@ CPU采用时间片轮转的方式运行进程。CPU为每个进程分配一个�
 
   - `TERMINATED`：已终止线程的线程状态。线程以完成执行
 
-  
+
+
+
+### :lock: 锁（synchronized）
+
+- 为什么要上锁？
+  - 在并发编程中存在<b style="color:#ff0000">线程安全</b>问题，主要在以下两方面，会产生该问题：
+    - 存在共享数据
+    - 多线程共同操作共享数据
+  - 使用关键字 `synchronized` 可以保证在同一时刻，只有一个线程可以执行某个方法或某个代码块，同时 `synchronized` 可以保证一个线程的变化可见（可见性），即可以代替 `volatile` 关键字
+
+#### `synchronized` 实现原理
+
+> HotSpot虚拟机是现在 Sun JDK 和 Open JDK 中所带的虚拟机，是目前使用范围最广的Java虚拟机
+
+##### <b style="color:#0088ff">对象的组成</b>
+
+在HotSpot虚拟机中，对象在内存中存储的布局可分为 3块区域：对象头（Header）、实例数据（Instance Data）和对齐填充。
+
+- <b style="color:#0088ff">实例数据</b>
+
+  - 对象真正存储的有效信息，也是程序代码中所定义的各种类型的字段内容。无论是从父类继承下来的，还是在子类中定义的，都需要记录起来。这部分的存储顺序会受到虚拟机分配策略参数和字段在Java源码中定义顺序的影响，HotSpot虚拟机默认分配策略为 longs/doubles、ints、shorts\chars、bytes\booleans、oops（Ordinary Object Pointers），从分配策略中可以看出，相同宽度的字段总是被分配到一起
+
+- <b style="color:#0088ff">对齐填充</b>
+
+  - 这部分并不是必然存在的，也没有特别的含义，它仅仅起着占位符的作用。由于HotSpot VM的自动内存管理系统要求对象起始地址必须是8字节的整数倍，因此，当对象实例数据部分没有对齐时，就需要通过对齐填充来补全
+
+- <b style="color:#0088ff">:star2::star2: 对象头</b>
+
+  - 用于存储对象自身的运行时数据。Java对象头包含三部分，分别是Mark Word、Class Metadata Address、Array length。三部分内容说明
+
+    - `Mark Word`：用来存储对象的 hashCode，GC分代年龄及锁信息
+    - `Class Metadata Address`：用来存储对象类型的指针
+    - `Array length`：用来存储数组对象的长度。如果对象不是数组类型，则没有 `Array length` 信息
+
+  - synchronized 锁信息包括锁的标志和锁的状态，这些信息都存放在对象头的 Mark Word 这一部分
+
+    ![](https://raw.githubusercontent.com/witty-hamster/assets/main/images/并发编程/HotSpot虚拟机中对象头结构.png)
+
+  - Mark Word里默认数据是存储对象的HashCode等信息，但是会随着对象的运行改变而发生变化，不同的锁状态对应着不同的记录存储方式
+
+    ![](https://raw.githubusercontent.com/witty-hamster/assets/main/images/并发编程/MarkWord中各类锁状态.png)
+
+  - Synchronized 通常被称为重量级锁，它的早期设计并不包含锁升级机制，所以性能较差，那个时候只有无锁和有锁之分，但是1.6之后对其进行优化，为了减少获取锁和释放锁带来的性能消耗，新增了轻量级锁和偏向锁，所以需要重点关注这两种状态的原理，以及它们的区别
+
+##### 锁的四种状态
+
+在Java 6中，锁一共被分为4种状态，级别由低到高依次是：无锁状态、偏向锁状态、轻量级锁状态、重量级锁状态。随着线程竞争情况的升级，锁的状态会从无锁状态逐步升级到重量级锁状态。锁可以升级却不能降级，这种只能升不能降的策略，是为了提高效率
+
+
+
+
+
+
+
+
+
