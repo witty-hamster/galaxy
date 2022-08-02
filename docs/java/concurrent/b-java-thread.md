@@ -145,9 +145,7 @@ CPU采用时间片轮转的方式运行进程。CPU为每个进程分配一个�
   - `TERMINATED`：已终止线程的线程状态。线程以完成执行
 
 
-
-
-### :lock: 锁（synchronized）
+## :lock: 锁（synchronized）
 
 > 参考文献
 >
@@ -159,11 +157,11 @@ CPU采用时间片轮转的方式运行进程。CPU为每个进程分配一个�
     - 多线程共同操作共享数据
   - 使用关键字 `synchronized` 可以保证在同一时刻，只有一个线程可以执行某个方法或某个代码块，同时 `synchronized` 可以保证一个线程的变化可见（可见性），即可以代替 `volatile` 关键字
 
-#### `synchronized` 实现原理
+### `synchronized` 实现原理
 
 > HotSpot虚拟机是现在 Sun JDK 和 Open JDK 中所带的虚拟机，是目前使用范围最广的Java虚拟机
 
-##### <b style="color:#0088ff">对象的组成</b>
+#### 对象的组成
 
 在HotSpot虚拟机中，对象在内存中存储的布局可分为 3块区域：对象头（Header）、实例数据（Instance Data）和对齐填充。
 
@@ -193,7 +191,7 @@ CPU采用时间片轮转的方式运行进程。CPU为每个进程分配一个�
 
   - Synchronized 通常被称为重量级锁，它的早期设计并不包含锁升级机制，所以性能较差，那个时候只有无锁和有锁之分，但是1.6之后对其进行优化，为了减少获取锁和释放锁带来的性能消耗，新增了轻量级锁和偏向锁，所以需要重点关注这两种状态的原理，以及它们的区别
 
-##### 锁的四种状态
+#### 锁的四种状态
 
 在Java 6中，锁一共被分为4种状态，级别由低到高依次是：无锁状态、偏向锁状态、轻量级锁状态、重量级锁状态。随着线程竞争情况的升级，锁的状态会从无锁状态逐步升级到重量级锁状态。锁可以升级却不能降级，这种只能升不能降的策略，是为了提高效率
 
@@ -201,7 +199,7 @@ CPU采用时间片轮转的方式运行进程。CPU为每个进程分配一个�
 
 关于Synchronized的实现在Java对象头里较为简单，只是改变一下标识位，并将指针指向 monitor对象的起始地址，其实现的重点是 monitor对象
 
-##### 代码方式梳理实现原理
+#### 代码方式梳理实现原理
 
 参考代码如下：
 
@@ -263,11 +261,11 @@ public void method2();
 - 对于同步方法，JVM采用 `ACC_SYNCHRONIZED` 标记符来实现同步
 - 对于同步代码块，JVM采用 `monitorenter` 和 `monitorexit` 这两个指令实现同步
 
-###### ACC_SYNCHRONIZED 标识符
+##### ACC_SYNCHRONIZED 标识符
 
 > 方法级的同步是隐式的。同步方法的常量池中会有一个 `ACC_SYNCHRONIZED` 标志。当某个线程要访问某个方法的时候，会检查是否有 `ACC_SYNCHRONIZED` 标志，如果有设置，则需要先获得监视器锁 monitor，然后开始执行方法，方法执行之后再释放监视器锁monitor。这时如果其他线程来请求执行方法，会因为无法获得监视器锁而被阻断住。值的注意的是，如果在方法执行过程中，发生了异常，并且方法内部并没有处理该异常，那么在异常被抛到方法外面之前监视器锁会被自动释放
 
-###### monitorenter 和 monitorexit 指令
+##### monitorenter 和 monitorexit 指令
 
 > 可以把执行 `monitorenter` 指令理解为加锁，执行 `monitorexit` 理解为释放锁。每个对象维护着一个记录被锁次数的计数器。未被锁定的对象的该计数器为0，当一个线程获得锁（执行 monitorenter）后，该计数器自增变为1，当同一个线程再次获得该对象的锁的时候，计数器再次自增。当同一个线程释放锁（执行 monitorexit）的时候，计数器再自减。当计数器为0的时候，锁将被释放，其他线程便可获得锁
 
@@ -275,7 +273,7 @@ public void method2();
 
 > 原因是这样的，编译器需要确保方法中调用过的每条monitorenter指令都要执行对应的monitorexit指令。为了保证在方法异常时，monitorenter和monitorexit指令也能正常配对执行，编译器会自动产生一个异常处理器，它的目的就是用来执行异常的monitorexit指令。而字节码中多出的monitorexit指令，就是异常结束时，被执行用来释放monitor的
 
-##### synchronized实现原理总结
+#### synchronized实现原理总结
 
 1. synchronized同步代码块：synchronized关键字经过编译之后，会在同步代码块前后分别形成monitorenter和monitorexit字节码指令，在执行monitorenter指令的时候，首先尝试获取对象的锁，如果这个锁没有被锁定或者当前线程已经拥有了那个对象的锁，锁的计数器就加1，在执行monitorexit指令时会将锁的计数器减1，当减为0的时候就释放锁。如果获取对象锁一直失败，那当前线程就要阻塞等待，直到对象锁被另一个线程释放为止
 2. 同步方法：方法级的同步是隐式的，无需通过字节码指令来控制，JVM可以从方法常量池的方法表结构中的ACC_SYNCHRONIZED访问标志得知一个方法是否声明为同步方法。当方法调用时，调用指令会检查方法的ACC_SYNCHRONIZED访问标志是否被设置，如果设置了，执行线程就要求先持有monitor对象，然后才能执行方法，最后当方法执行完（无论是正常完成还是非正常完成）时释放monitor对象。在方法执行期间，执行线程持有了管程，其他线程都无法再次获取同一个管程
@@ -290,7 +288,7 @@ monitorenter 和 monitorexit 指令是通过 monitor 对象实现的。
 
 通过 monitorenter 和 monitorexit 两个指令可以清楚的看出synchronized的实现原理，==synchronized的语义底层是通过一个 monitor的对象来完成==，其实wait/notify等方法也依赖于monitor对象，这就是为什么只有在同步的块或者方法中才能调用wait/notify等方法，否则会抛出异常`java.lang.IllegalMonitorStateException`
 
-##### synchronized 是如何保证原子性、有效性和可见性的？
+#### synchronized 是如何保证原子性、有效性和可见性的？
 
 - 原子性：即一个操作或者多个操作，要么全部执行并且执行的过程不会被任何因素打断，要么就都不执行
 
