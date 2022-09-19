@@ -1,4 +1,4 @@
-# 锁 Synchronized :closed_lock_with_key:
+# 🔐 锁 Synchronized
 
 > 参考文献
 >
@@ -215,14 +215,14 @@ CAS 是为了实现 Java 中的原子操作而出现的。为了保证在比较�
 
 ## Synchronized 锁升级
 
-### 【思考 :thinking: 】为什么会有 <b style="color:#ff0000">锁升级</b> 的过程呢 ？
+### 【🤔 思考】为什么会有 <b style="color:#ff0000">锁升级</b> 的过程呢 ？
 
 - 在 Java6 以前 Synchronized 锁实现都是重量级锁的形式，效率低下。为了提升效率，对锁进行了优化处理，所以出现了锁升级的过程。
 
 ### 我们通常说的 Synchronized 锁是重量级锁，那么为什么叫它重量级锁 ？
 
 - 因为 Synchronized 执行 <b style="color:#0000ff">效率太低</b>。在 Java6 以前 <b style="color:#0000ff">每次调用 Synchronized 加锁时都需要进行系统调用，系统调用会涉及到用户态和内核态的切换，系统调用会经过 0x80 中断，经过内核调用后再返回用户态。此过程比较复杂，时间比较长，所以通常叫 Synchronized 为重量级锁</b>。
-- 【误区 :x: 】<b style="color:#ff0000">其实锁升级过程中涉及到的偏向锁，轻量级锁等，都是 Synchronized 锁的具体实现所要经历的过程，他们并不是单独的锁。只是给它们这几种锁的状态起了一个名字而已</b>。
+- 【❌ 误区】<b style="color:#ff0000">其实锁升级过程中涉及到的偏向锁，轻量级锁等，都是 Synchronized 锁的具体实现所要经历的过程，他们并不是单独的锁。只是给它们这几种锁的状态起了一个名字而已</b>。
 
 ### Synchronized 锁的四种状态
 
@@ -263,7 +263,7 @@ CAS 是为了实现 Java 中的原子操作而出现的。为了保证在比较�
 
 ![](images/偏向锁获取流程.png)
 
-> 【注 :warning: 】<b style="color:#ff0000">在高并发下可以关闭偏向锁来提升性能</b>，通过设置 JVM 参数：`-XX:-UseBiasedLocking=false`
+> 【⚠️ 注】<b style="color:#ff0000">在高并发下可以关闭偏向锁来提升性能</b>，通过设置 JVM 参数：`-XX:-UseBiasedLocking=false`
 
 ---
 

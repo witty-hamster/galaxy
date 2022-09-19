@@ -28,7 +28,7 @@
 
 - [🐶 Java线程知识网](docs/java/concurrent/b-java-thread.md)
 
-### 锁 :closed_lock_with_key:
+### 🔐 锁
 
 - [Synchronized锁](docs/java/concurrent/b-synchronized.md)
 
